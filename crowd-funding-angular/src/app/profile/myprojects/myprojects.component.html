@@ -1,0 +1,41 @@
+<p></p>
+<div *ngIf="Myprojects?.length >0 else elseblock" >
+<div class="row" *ngFor="let proj of Myprojects">
+    <div class="col-sm-3"></div>
+    <div class="col-sm-6">
+        <div class="card" style="border-color: transparent;">
+
+            <div class="card-body">
+              <div class="row">
+                <!-- <div class="col-sm-5">
+                  <img class="profilepic" style="height:100px; width: 100px;" src="{{proj.image}}">
+      
+                </div> -->
+                <div class="col-sm-8">
+                  <h3 style="cursor: pointer;" (click)="goToCampaign(proj.campaign_id)" class="card-title">{{proj.cam_title}}</h3>
+                  <p class="card-text">{{proj.cam_subject}}</p>
+                </div>
+                <div class="col-sm-4">
+                  <a *ngIf="proj.status!='failed'" class="btn btn-danger" style=" margin-right: 5px; color: white; padding: 5px 20px;" (click)="goToDeleteCampaign(proj.campaign_id)">Delete</a>
+
+                  <a class="btn btn-primary" style="float: right; color: white; padding: 5px 20px;" (click)="goToEditCampaign(proj.campaign_id)" >Edit</a>
+
+                </div>
+              </div>
+            </div>
+          </div>
+         <div class="h-divider"></div>
+    </div>
+    <div class="col-sm-3"></div>
+    <br>
+</div>
+</div>
+<ng-template #elseblock>
+  <div class="row">
+    <div class="col-sm-4"></div>
+    <div class="col-sm-4">
+      <p style="font-size: x-large; font-family: monospace;">Have some idea?? Launch it => <a href="#">here</a></p>
+    </div>
+    <div class="col-sm-4"></div>
+  </div>
+</ng-template>

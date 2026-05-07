@@ -1,0 +1,243 @@
+<section class="category-container">
+  <div class="row category">
+    <div class="col-md-12">
+      <div class="cat-title">
+        <span>{{ cat }}</span>
+      </div>
+      <div class="cat-desc">
+        <span>
+          From tabletop adventures to beloved revivals, discover the projects
+          forging the future.
+        </span>
+      </div>
+      <!-- <div class="cat-explore">Explore {{ cat }}</div> -->
+    </div>
+  </div>
+</section>
+<section
+  class="featured-container"
+  *ngIf="trendingCampaignsByCat.length != 0; else nocampaigns"
+>
+  <div class="row featured">
+    <div class="col-md-7 padding-right-0">
+      <div class="featured-first">
+        <div class="featured-tag">
+          <span>Featured Project</span>
+        </div>
+        <div class="featured-img">
+          <img
+            height="400px"
+            src="http://localhost:3000/{{
+              trendingCampaignsByCat[0]?.image_preview
+            }}"
+          />
+        </div>
+        <div class="featured-title head">
+          <!-- change the id in the function below with actual ID of the campaign -->
+          <span
+            (click)="goToCampaign(trendingCampaignsByCat[0]?.campaign_id)"
+            style="cursor: pointer"
+            >{{ trendingCampaignsByCat[0]?.cam_title }}</span
+          >
+        </div>
+        <div class="featured-desc">
+          <span>{{ trendingCampaignsByCat[0]?.cam_subject }} </span>
+        </div>
+        <div class="featured-by">
+          <span>By {{ trendingCampaignsByCat[0]?.user_name }}</span>
+        </div>
+      </div>
+    </div>
+    <div
+      class="col-md-5 padding-left-0"
+      *ngIf="trendingCampaignsByCat.length > 1"
+    >
+      <div class="featured-second">
+        <div class="success-tag">
+          <span>Recent success</span>
+        </div>
+
+        <ng-container
+          *ngFor="let campaign of trendingCampaignsByCat; let i = index"
+        >
+          <div
+            *ngIf="i != 0 && i < 4"
+            class="success-project"
+            style="padding-top: 0px"
+          >
+            <div class="row">
+              <div class="col-md-5">
+                <div class="success-img">
+                  <!-- <img
+                    height="100%"
+                    width="100%"
+                    src="https://ksr-ugc.imgix.net/assets/027/994/350/88e477139c21255783b81d69367e2475_original.png?ixlib=rb-2.1.0&crop=faces&w=352&h=198&fit=crop&v=1580988168&auto=format&frame=1&q=92&s=9589a0f7494b3b7fcbab65ebc4937737"
+                  /> -->
+
+                  <img
+                    height="100%"
+                    width="100%"
+                    src="http://localhost:3000/{{ campaign.image_preview }}"
+                  />
+                </div>
+              </div>
+              <div class="col-md-7">
+                <div class="success-title">
+                  <!-- change the id in the function below with actual ID of the campaign -->
+                  <span
+                    (click)="goToCampaign(campaign.campaign_id)"
+                    style="cursor: pointer"
+                    >{{ campaign.cam_title }}
+                  </span>
+                </div>
+                <div class="success-by">
+                  <span>By {{ campaign.user_name }}</span>
+                </div>
+                <div class="success-explore">
+                  <span
+                    (click)="goToCampaign(campaign.campaign_id)"
+                    style="cursor: pointer"
+                    >Explore</span
+                  >
+                </div>
+              </div>
+            </div>
+          </div>
+        </ng-container>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="filter-campaigns" *ngIf="trendingCampaignsByCat.length != 0">
+  <div class="row">
+    <div class="col-md-12">
+      <div class="filter-by">
+        <span class="filter-by-tag">Fresh Favorites in {{ cat }}</span>
+        <span class="discover-more">showing all in {{ cat }}</span>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-12">
+      <ngx-slick-carousel
+        class="carousel"
+        #slickModal="slick-carousel"
+        [config]="slideConfig"
+      >
+        <div *ngFor="let nc of newestCampaignsByCat" ngxSlickItem class="slide">
+          <a (click)="goToCampaign(nc.campaign_id)">
+            <div class="campaign-slide">
+              <div class="slide-img">
+                <img src="http://localhost:3000/{{ nc.image_preview }}" />
+              </div>
+              <div class="slide-title">
+                <span>{{ nc.cam_title }} </span>
+              </div>
+              <div class="slide-desc">
+                <span>
+                  {{ nc.cam_desc }}
+                </span>
+              </div>
+              <div class="slide-by">
+                <span>By {{ nc.user_name }}</span>
+              </div>
+            </div>
+          </a>
+        </div>
+      </ngx-slick-carousel>
+    </div>
+  </div>
+</section>
+
+<section class="filter-campaigns" style="background-color: rgb(237, 241, 248)">
+  <div class="row">
+    <div class="col-md-12">
+      <div class="filter-by">
+        <span class="filter-by-tag">FRESH FAVORITES </span>
+
+        <span class="discover-more">showing all new</span>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-12">
+      <ngx-slick-carousel
+        class="carousel"
+        #slickModal="slick-carousel"
+        [config]="slideConfig"
+      >
+        <div *ngFor="let nc of newestCampaigns" ngxSlickItem class="slide">
+          <a (click)="goToCampaign(nc.campaign_id)">
+            <div class="campaign-slide">
+              <div class="slide-img">
+                <img src="http://localhost:3000/{{ nc.image_preview }}" />
+              </div>
+              <div class="slide-title">
+                <span>{{ nc.cam_title }} </span>
+              </div>
+              <div class="slide-desc">
+                <span>
+                  {{ nc.cam_desc }}
+                </span>
+              </div>
+              <div class="slide-by">
+                <span>By Fury Nick</span>
+              </div>
+            </div>
+          </a>
+        </div>
+      </ngx-slick-carousel>
+    </div>
+  </div>
+</section>
+
+<section class="filter-campaigns">
+  <div class="row">
+    <div class="col-md-12">
+      <div class="filter-by">
+        <span class="filter-by-tag">TRENDING CAMPAIGNS</span>
+
+        <span class="discover-more">showing all trending</span>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-12">
+      <ngx-slick-carousel
+        class="carousel"
+        #slickModal="slick-carousel"
+        [config]="slideConfig"
+      >
+        <div *ngFor="let nc of trendingCampaigns" ngxSlickItem class="slide">
+          <a (click)="goToCampaign(nc.campaign_id)">
+            <div class="campaign-slide">
+              <div class="slide-img">
+                <img src="http://localhost:3000/{{ nc.image_preview }}" />
+              </div>
+              <div class="slide-title">
+                <span>{{ nc.cam_title }} </span>
+              </div>
+              <div class="slide-desc">
+                <span>
+                  {{ nc.cam_desc }}
+                </span>
+              </div>
+              <div class="slide-by">
+                <span>By Fury Nick</span>
+              </div>
+            </div>
+          </a>
+        </div>
+      </ngx-slick-carousel>
+    </div>
+  </div>
+</section>
+
+<ng-template #nocampaigns>
+  <div class="row mb-5">
+    <div class="col-md-12 text-center">
+      <div class="cat-title">No Campaigns found in this category!!</div>
+    </div>
+  </div>
+</ng-template>

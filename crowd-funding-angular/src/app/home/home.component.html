@@ -1,0 +1,430 @@
+<section class="featured-container">
+  <div class="row">
+    <div class="col-md-7">
+      <select
+        name="order-by"
+        (change)="newOrTrending($event.target.value)"
+        class="col-md-3 custom-select"
+        id=""
+      >
+        <option selected value="trending">Trending</option>
+        <option value="newer">Newer</option>
+      </select>
+    </div>
+    <div class="col-md-5">
+      <div class="row">
+        <form name="form" class="ml-5">
+          <div class="d-flex" style="width: 100%">
+            <input
+              type="text"
+              class="form-control"
+              required
+              minlength="5"
+              #search="ngModel"
+              [(ngModel)]="searchData.data"
+              placeholder="Search campaign"
+              name="data"
+              style="
+                border: none;
+                border-bottom: 1px solid black;
+                border-radius: 0;
+                outline: none;
+              "
+            />
+            <button
+              class="btn btn-success"
+              type="submit"
+              *ngIf="search.valid"
+              (click)="searchFunction()"
+              style="border-radius: 0"
+            >
+              <!-- <img src="../../assets/search.png" /> -->
+              Search
+            </button>
+          </div>
+        </form>
+        <div class="row">
+          <div
+            class="ml-auto"
+            *ngIf="search.touched && !search.valid"
+            style="color: red; text-align: left; font-size: 14px"
+          >
+            <span *ngIf="search.errors.required">Can't be empty</span>
+          </div>
+          <div
+            class="ml-auto"
+            *ngIf="search.touched && !search.valid"
+            style="color: red; text-align: left; font-size: 14px"
+          >
+            <span *ngIf="search.errors.minlength"
+              >The length of text must be 5 or more.</span
+            >
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div
+    class="row my-5"
+    *ngIf="searchedCampaigns.length != 0"
+    style="border-bottom: 1px solid lightgrey; border-top: 1px solid lightgrey"
+  >
+    <div class="col-md-8">
+      <div class="row my-5" *ngFor="let campaign of searchedCampaigns">
+        <div
+          class="card"
+          style="border-color: transparent; cursor: pointer"
+          (click)="goToCampaign(campaign.campaign_id)"
+        >
+          <div class="card-body">
+            <div class="row">
+              <div class="col-sm-4">
+                <img
+                  class="card-img"
+                  style="max-height: 150px"
+                  src="http://localhost:3000/{{ campaign.image_preview }}"
+                  alt="preview image"
+                />
+              </div>
+              <div class="col-sm-8">
+                <h5 class="card-text">{{ campaign.cam_title }}</h5>
+                <p class="card-text">{{ campaign.cam_subject }}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-4 my-5">
+      <div class="ml-auto">
+        <a
+          class="text-success"
+          (click)="clearSearch($event)"
+          href=""
+          style="font-size: 18px"
+          >Clear Search</a
+        >
+      </div>
+    </div>
+  </div>
+
+  <div class="row featured pt-5">
+    <div class="col-md-7 padding-right-0">
+      <div class="featured-first">
+        <div class="featured-tag">
+          <span>Featured Project</span>
+        </div>
+        <div class="featured-img">
+          <!-- <img
+            height="400px"
+            src="https://ksr-static.imgix.net/hb6w3nl7-ptolus_2.png?ixlib=rb-2.1.0&s=247ac0cc90963c796ad757ace6bb5ab6"
+          /> -->
+          <img
+            height="400px"
+            src="http://localhost:3000/{{ orderBy[0]?.image_preview }}"
+          />
+        </div>
+        <div class="featured-title head">
+          <!-- change the id in the function below with actual ID of the campaign -->
+          <!-- <span (click)="goToCampaign(27)">Ptolus: Monte Cook's City by the Spire</span  > -->
+          <span
+            (click)="goToCampaign(orderBy[0]?.campaign_id)"
+            style="cursor: pointer"
+            >{{ orderBy[0]?.cam_title }}</span
+          >
+        </div>
+        <div class="featured-desc">
+          <span>{{ orderBy[0]?.cam_subject }} </span>
+        </div>
+        <div class="featured-by">
+          <span>By {{ orderBy[0]?.user_name }}</span>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-5 padding-left-0" *ngIf="orderBy.length > 1">
+      <div class="featured-second">
+        <div class="success-tag">
+          <span>Recent success</span>
+        </div>
+
+        <!-- trending or newest projects iteration -->
+        <ng-container *ngFor="let campaign of orderBy; let i = index">
+          <div
+            *ngIf="i != 0 && i < 4"
+            class="success-project"
+            style="padding-top: 0px"
+          >
+            <div class="row">
+              <div class="col-md-5">
+                <div class="success-img">
+                  <!-- <img
+                  height="100%"
+                  width="100%"
+                  src="https://ksr-ugc.imgix.net/assets/027/994/350/88e477139c21255783b81d69367e2475_original.png?ixlib=rb-2.1.0&crop=faces&w=352&h=198&fit=crop&v=1580988168&auto=format&frame=1&q=92&s=9589a0f7494b3b7fcbab65ebc4937737"
+                /> -->
+
+                  <img
+                    height="100%"
+                    width="100%"
+                    src="http://localhost:3000/{{ campaign.image_preview }}"
+                  />
+                </div>
+              </div>
+              <div class="col-md-7">
+                <div class="success-title">
+                  <!-- change the id in the function below with actual ID of the campaign -->
+                  <span
+                    (click)="goToCampaign(campaign.campaign_id)"
+                    style="cursor: pointer"
+                    >{{ campaign.cam_title }}
+                  </span>
+                </div>
+                <div class="success-by">
+                  <span>By {{ campaign.user_name }}</span>
+                </div>
+                <div class="success-explore">
+                  <span (click)="goToCampaign(campaign.campaign_id)"
+                    >Explore</span
+                  >
+                </div>
+              </div>
+            </div>
+          </div>
+        </ng-container>
+        <!-- iteration of success project -->
+
+        <!-- iteration of success project -->
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<div style="background-color: rgb(237, 241, 248)">
+  <div class="row category-div" style="background-color: rgb(237, 241, 248)">
+    <div class="col-md-12">
+      <div class="discover-by-tag" style="margin-bottom: 0px !important">
+        <span>Discover by Categories</span>
+      </div>
+      <div class="cat-desc">
+        <span>
+          From tabletop adventures to beloved revivals, discover the projects
+          forging the future of gameplay.
+        </span>
+      </div>
+      <!-- <div class="cat-explore">
+            Advanced Search
+        </div> -->
+    </div>
+  </div>
+
+  <section class="categories">
+    <div class="row">
+      <div class="col-md-6">
+        <a (click)="goToCategory('Miscelleneous')">
+          <div
+            class="category card"
+            style="background-image: url('assets/images/green.png')"
+          >
+            <div class="category-title card-title">
+              <span>Miscelleneous</span>
+            </div>
+            <div class="category-subtitle">
+              <span>Believe it or not, Orange is the new black.</span>
+            </div>
+          </div>
+        </a>
+      </div>
+      <div class="col-md-6">
+        <a (click)="goToCategory('Comics')">
+          <div
+            class="category card"
+            style="background-image: url('assets/images/books.png')"
+          >
+            <div class="category-title head">
+              <span>Comics</span>
+            </div>
+            <div class="category-subtitle">
+              <span>Believe it or not, Orange is the new black.</span>
+            </div>
+          </div>
+        </a>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-6">
+        <a (click)="goToCategory('Sports')">
+          <div
+            class="category card"
+            style="background-image: url('assets/images/sports.png')"
+          >
+            <div class="category-title head">
+              <span>Sports</span>
+            </div>
+            <div class="category-subtitle">
+              <span>Believe it or not, Orange is the new black.</span>
+            </div>
+          </div>
+        </a>
+      </div>
+      <div class="col-md-6">
+        <a (click)="goToCategory('Publish')">
+          <div
+            class="category card"
+            style="background-image: url('assets/images/wikipedia.png')"
+          >
+            <div class="category-title head">
+              <span>Publish</span>
+            </div>
+            <div class="category-subtitle">
+              <span>Believe it or not, Orange is the new black.</span>
+            </div>
+          </div>
+        </a>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-6">
+        <a (click)="goToCategory('Innovation')">
+          <div
+            class="category card"
+            style="background-image: url('assets/images/abstract.png')"
+          >
+            <div class="category-title head">
+              <span>Innovation</span>
+            </div>
+            <div class="category-subtitle">
+              <span>Believe it or not, Orange is the new black.</span>
+            </div>
+          </div>
+        </a>
+      </div>
+      <div class="col-md-6">
+        <a (click)="goToCategory('Design & Tech')">
+          <div
+            class="category card"
+            style="background-image: url('assets/images/tech.png')"
+          >
+            <div class="category-title head">
+              <span>Design & Tech</span>
+            </div>
+            <div class="category-subtitle">
+              <span>Believe it or not, Orange is the new black.</span>
+            </div>
+          </div>
+        </a>
+      </div>
+    </div>
+  </section>
+</div>
+
+<section class="category-container">
+  <div class="row category-div">
+    <div class="col-md-12">
+      <div class="cat-title">
+        <span>Welcome to the world of </span><span>Creative</span
+        ><span> people.</span>
+      </div>
+      <div class="cat-desc">
+        <span>
+          From tabletop adventures to beloved revivals, discover the projects
+          forging the future of gameplay.
+        </span>
+      </div>
+      <div (click)="goToLogin()" *ngIf="loginDiv" class="cat-explore">
+        <button  style="border: none; padding: 10px 30px ; font-size: 18px; background: var(--green); color:  white;">Sign in</button>
+              
+            </div>
+    </div>
+  </div>
+</section>
+
+
+
+<section class="filter-campaigns">
+  <div class="row">
+    <div class="col-md-12">
+      <div class="filter-by">
+        <span class="filter-by-tag">TRENDING CAMPAIGNS</span>
+
+        <span class="discover-more">Showing all trending</span>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-12">
+      <ngx-slick-carousel
+        class="carousel"
+        #slickModal="slick-carousel"
+        [config]="slideConfig"
+      >
+        <div *ngFor="let nc of trendingCampaigns" ngxSlickItem class="slide">
+          <a (click)="goToCampaign(nc.campaign_id)">
+            <div class="campaign-slide">
+              <div class="slide-img">
+                <img src="http://localhost:3000/{{ nc.image_preview }}" />
+              </div>
+              <div class="slide-title">
+                <span>{{ nc.cam_title }} </span>
+              </div>
+              <div class="slide-desc">
+                <span>
+                  {{ nc.cam_desc }}
+                </span>
+              </div>
+              <div class="slide-by">
+                <span>By {{ nc.user_name }}</span>
+              </div>
+            </div>
+          </a>
+        </div>
+      </ngx-slick-carousel>
+    </div>
+  </div>
+</section>
+
+<section class="filter-campaigns" style="background-color: rgb(237, 241, 248)">
+  <div class="row">
+    <div class="col-md-12">
+      <div class="filter-by">
+        <span class="filter-by-tag">FRESH FAVORITES </span>
+
+        <span class="discover-more">showing all new</span>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-12">
+      <ngx-slick-carousel
+        class="carousel"
+        #slickModal="slick-carousel"
+        [config]="slideConfig"
+      >
+        <div *ngFor="let nc of newestCampaigns" ngxSlickItem class="slide">
+          <a (click)="goToCampaign(nc.campaign_id)">
+            <div class="campaign-slide">
+              <div class="slide-img">
+                <img src="http://localhost:3000/{{ nc.image_preview }}" />
+              </div>
+              <div class="slide-title">
+                <span>{{ nc.cam_title }} </span>
+              </div>
+              <div class="slide-desc">
+                <span>
+                  {{ nc.cam_desc }}
+                </span>
+              </div>
+              <div class="slide-by">
+                <span>By {{ nc.user_name }}</span>
+              </div>
+              <p>{{ nc.cam_reg_date | date }}</p>
+            </div>
+          </a>
+        </div>
+      </ngx-slick-carousel>
+    </div>
+  </div>
+</section>
