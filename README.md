@@ -124,6 +124,24 @@ The backend reads these values from the environment:
 
 The `screens/` folder contains sample screenshots of the application UI.
 
+### Gallery
+
+![Home](screens/home.png)
+
+![Category View](screens/categories.jpeg)
+
+![Campaign View](screens/camp.png)
+
+![Screenshot 1](screens/Screenshot%202020-03-13%20at%206.20.02%20PM.png)
+
+![Screenshot 2](screens/Screenshot%202020-03-13%20at%206.20.10%20PM.png)
+
+![WhatsApp Image 1](screens/WhatsApp%20Image%202020-06-15%20at%2000.29.28.jpeg)
+
+![WhatsApp Image 2](screens/WhatsApp%20Image%202020-06-15%20at%2000.29.29%20(1).jpeg)
+
+![WhatsApp Image 3](screens/WhatsApp%20Image%202020-06-15%20at%2000.29.29%20(2).jpeg)
+
 ## Troubleshooting
 
 - If the backend says `Access denied`, check `DB_PASSWORD`.
